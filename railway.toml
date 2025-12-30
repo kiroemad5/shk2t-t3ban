@@ -1,0 +1,28 @@
+# Railway Config File for shk2t-t3ban
+# Reference: https://docs.railway.app/reference/config-as-code
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "node ./src/server.js"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+healthcheckPath = "/app/v1/users/user"
+healthcheckTimeout = 30
+
+[env]
+PORT = "3000"
+NODE_ENV = "production"
+JWT_EXPIRES_IN = "30"
+DEFAULT_ORGANIZATION_ID = "website-org"
+RAILWAY_PUBLIC_DOMAIN = "shk2t-t3ban-production.up.railway.app"
+RAILWAY_PRIVATE_DOMAIN = "shk2t-t3ban.railway.internal"
+RAILWAY_PROJECT_NAME = "luminous-kindness"
+RAILWAY_ENVIRONMENT_NAME = "production"
+RAILWAY_SERVICE_NAME = "shk2t-t3ban"
+
+[env.secrets]
+DATABASE_Atlas = "${{ secrets.DATABASE_Atlas }}"
+JWT_SECRET = "${{ secrets.JWT_SECRET }}"
