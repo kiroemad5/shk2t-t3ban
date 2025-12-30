@@ -1,0 +1,10 @@
+{
+  "subject": {
+    "passwordReset": "Your password reset OTP (valid for 10 min)",
+    "EmailVerification": "Your OTP verify email (valid for 10 min)"
+  },
+  "message": {
+    "passwordReset": "Forgot your password? Use that OTP to Submit a new password.\nIf you didn't forgot your password, please ignore this email",
+    "EmailVerification": "The OTP to verify your email is "
+  }
+}

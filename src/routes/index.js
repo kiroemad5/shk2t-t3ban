@@ -1,0 +1,26 @@
+const express = require('express')
+const userRoutes = require('./user.routes.js')
+const inquiryRoutes = require('./inquiry.routes.js')
+const productRoutes = require('./product.routes.js')
+const wishItemRoutes = require('./wishItem.routes.js')
+const reviewRoutes = require('./review.routes.js')
+const notificationRoutes = require('./notification.routes.js')
+const cartRoutes = require('./cart.routes.js')
+const cartItemRoutes = require('./cartItem.routes.js')
+const orderRoutes = require('./order.routes.js')
+const paymentRoutes = require('./payment.routes.js')
+
+const router = express.Router()
+
+router.use('/users', userRoutes)
+router.use('/inquiries', inquiryRoutes)
+router.use('/products', productRoutes)
+router.use('/wish-items', wishItemRoutes)
+router.use('/reviews', reviewRoutes)
+router.use('/notifications', notificationRoutes)
+router.use('/carts', cartRoutes)
+router.use('/cartItems', cartItemRoutes)
+router.use('/orders', orderRoutes)
+router.use('/payments', paymentRoutes)
+
+module.exports = router

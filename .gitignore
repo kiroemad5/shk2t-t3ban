@@ -1,0 +1,14 @@
+node_modules
+dist
+/src/config
+/src/logs
+/logs
+.env.*
+!.env.example
+.env.local
+/test
+# src/locales
+docs
+docs1
+*.log
+.DS_Store
