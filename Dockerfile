@@ -22,7 +22,7 @@ RUN apt-get update -qq && \
 
 # Install node modules (cacheable layer)
 COPY package*.json ./
-RUN if [ "$NODE_ENV" = "production" ]; then npm ci --only=production; else npm ci; fi
+RUN if [ "$NODE_ENV" = "production" ]; then npm install --only=production; else npm install; fi
 
 # Copy application code
 COPY . .
