@@ -8,26 +8,21 @@ LABEL fly_launch_runtime="Node.js"
 # Node.js app lives here
 WORKDIR /app
 
-# Optionally set environment at build time
-ARG NODE_ENV=development
+# Build with production defaults; override by passing --build-arg NODE_ENV=development
+ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
-# Install packages needed to build node modules
+# Install packages needed to build native node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential pkg-config 
+    apt-get install --no-install-recommends -y build-essential pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install node modules (cacheable layer)
 COPY package*.json ./
-
-# Use npm ci for reproducible installs; conditionally install dev deps
-RUN if ["$NODE_ENV"="production"]; \
-    then npm install --only=production; \
-    else npm install  ; \
-    fi 
+RUN if [ "$NODE_ENV" = "production" ]; then npm ci --only=production; else npm ci; fi
 
 # Copy application code
 COPY . .
@@ -35,14 +30,12 @@ COPY . .
 # Final stage for app image
 FROM base AS runtime
 
+# Ensure production env in runtime image
+ENV NODE_ENV=production
+
 # Copy built application (includes node_modules from build stage)
 COPY --from=build /app /app
 
-# Ensure production env in runtime image
-ENV NODE_ENV=${NODE_ENV}
-
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-
-# Run Node (avoid nodemon in containers)
-CMD [ "node", "./src/server.js" ]
+CMD ["node", "./src/server.js"]
