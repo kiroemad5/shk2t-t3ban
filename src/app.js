@@ -54,6 +54,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use('/app/v1', routes)
 
+app.get('/health', (req, res) => res.status(200).send('OK'))
+
 app.all('*', (req, res, next) => {
   const err = new Error(`Can't find ${req.originalUrl} on this server!`)
   err.status = 404
